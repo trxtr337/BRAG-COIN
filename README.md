@@ -1,4 +1,4 @@
-# TonVotes
+# BRAG COIN
 # Война Эго (TON Flex Battle) - Дизайн-документ
 
 ## 1. Общая концепция
