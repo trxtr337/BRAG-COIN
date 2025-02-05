@@ -33,6 +33,30 @@ router.post("/register", async (req, res) => {
   });
   
 
+  router.post("/withdraw", async (req, res) => {
+    const { wallet, amount } = req.body;
+  
+    if (!wallet || !amount || amount <= 0) {
+      return res.status(400).json({ error: "Некорректные данные вывода" });
+    }
+  
+    try {
+      const user = await User.findOne({ wallet });
+  
+      if (!user || user.balance < amount) {
+        return res.status(400).json({ error: "Недостаточно средств!" });
+      }
+  
+      user.balance -= amount;
+      await user.save();
+  
+      res.json({ success: true, message: `Вывод ${amount} BGC успешно обработан!` });
+    } catch (error) {
+      res.status(500).json({ error: "Ошибка сервера" });
+    }
+  });
+  
+
 // Пополнение баланса (ТОКЕНЫ -> КОИНЫ)
 router.post("/deposit", async (req, res) => {
     const { wallet, amount } = req.body;
